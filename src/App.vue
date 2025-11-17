@@ -3,6 +3,7 @@ import { ref, onBeforeMount } from 'vue'
 import axios from 'axios'
 
 import NavHeader from './components/navHeader.vue'
+import SiteFooter from './components/siteFooter.vue'
 
 interface Product {
   id: number
@@ -33,4 +34,6 @@ onBeforeMount(async () => {
   <main>
     <RouterView />
   </main>
+
+  <SiteFooter />
 </template>

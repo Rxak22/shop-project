@@ -19,7 +19,7 @@ interface Product {
   }
 }
 useHead({
-  title: () => 'Shoping | Home',
+  title: () => 'AllWays Store | Home',
 })
 const data = ref<Product[]>([])
 const loading = ref(false)
