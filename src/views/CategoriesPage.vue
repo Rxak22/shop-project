@@ -58,6 +58,15 @@ useHead({
 </script>
 
 <template>
-  <ItemCard :products="data" />
-  <LoadingLog :loading="loading" />
+  <div>
+    <div v-if="loading"
+      class="container mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+      <SkeletonCard v-for="n in 8" :key="n" />
+    </div>
+    <div v-else>
+      <ItemCard :products="data" />
+    </div>
+
+    <LoadingLog :loading="loading" />
+  </div>
 </template>

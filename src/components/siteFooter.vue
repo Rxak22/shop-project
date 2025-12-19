@@ -24,7 +24,7 @@ const subscribe = () => {
         <div class="container mx-auto py-10 px-4">
             <div class="flex flex-col md:flex-row md:justify-between gap-8">
                 <div class="max-w-sm">
-                    <h3 class="text-2xl font-bold">AllWays Store</h3>
+                    <h3 class="text-xl md:text-2xl font-bold">AllWays Store</h3>
                     <p class="mt-3 text-slate-300 text-sm">Modern apparel for everyday style. Quality fabrics, fair
                         prices, and fast shipping.</p>
                 </div>

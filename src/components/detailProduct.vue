@@ -101,30 +101,34 @@ const handleAddToCart = () => {
 </script>
 
 <template>
-  <div class="container mx-auto mt-3 flex">
-    <div class="w-[67%] pe-5 relative">
+  <div class="container mx-auto mt-3 flex flex-col md:flex-row gap-6">
+    <div class="w-full md:w-2/3 relative">
       <LoadingLog :loading="loadingDetail" />
-      <h1 class="text-4xl font-bold">{{ data?.title }}</h1>
-      <img class="w-full h-[500px] mt-5" :src="data?.images" alt="" />
-      <h2 class="text-2xl font-semibold mt-3 text-amber-500">$ {{ data?.price }}</h2>
-      <p>{{ data?.description }}</p>
+      <h1 class="text-2xl md:text-4xl font-bold">{{ data?.title }}</h1>
+      <img class="w-full h-64 md:h-[500px] mt-5 object-cover" :src="data?.images" :alt="data?.title" loading="lazy"
+        decoding="async" />
+      <h2 class="text-xl md:text-2xl font-semibold mt-3 text-amber-500">$ {{ data?.price }}</h2>
+      <p class="mt-2 text-sm md:text-base">{{ data?.description }}</p>
 
-      <button @click="handleAddToCart"
-        class="px-3 py-1 bg-amber-500 rounded-sm mt-3 text-slate-50 cursor-pointer hover:bg-amber-600 transition">
-        Add to Cart
-      </button>
-      <button class="px-3 py-1 bg-amber-600 rounded-sm ml-2 mt-3 text-slate-50 cursor-pointer">
-        But Now
-      </button>
-      <button></button>
+      <div class="mt-4 flex flex-col sm:flex-row gap-2">
+        <button @click="handleAddToCart"
+          class="px-3 py-2 bg-amber-500 rounded-sm text-slate-50 cursor-pointer hover:bg-amber-600 transition">
+          Add to Cart
+        </button>
+        <button class="px-3 py-2 bg-amber-600 rounded-sm text-slate-50 cursor-pointer">
+          Buy Now
+        </button>
+      </div>
     </div>
-    <div class="w-[33%] h-auto">
-      <h1 class="text-2xl text-slate-500 font-semibold">Recomment Product</h1>
-      <div class="w-full flex flex-wrap gap-1 mt-2 relative" :class="loadingSuggest ? 'h-[85vh]' : 'h-auto'">
+
+    <aside class="w-full md:w-1/3 h-auto">
+      <h1 class="text-xl md:text-2xl text-slate-500 font-semibold">Recommended Products</h1>
+      <div class="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-2 mt-2 relative"
+        :class="loadingSuggest ? 'h-[85vh]' : 'h-auto'">
         <LoadingLog :loading="loadingSuggest" />
         <SuggestCard v-for="(product, index) in suggestData" :key="index" :product="product"
           @open-detail="handleOpenProductDetail(product.category.id, product.id)" />
       </div>
-    </div>
+    </aside>
   </div>
 </template>

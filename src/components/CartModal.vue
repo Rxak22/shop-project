@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { ref, watch, nextTick } from 'vue'
 import { useCart } from '@/stores/cart'
 
-defineProps<{
+const props = defineProps<{
     isOpen: boolean
 }>()
 
@@ -10,6 +11,33 @@ const emit = defineEmits<{
 }>()
 
 const { items, totalPrice, removeItem, updateQuantity, clearCart } = useCart()
+
+const modalPanel = ref<HTMLElement | null>(null)
+const previouslyFocused = ref<HTMLElement | null>(null)
+
+const closeModal = () => {
+    emit('close')
+    if (previouslyFocused.value) previouslyFocused.value.focus()
+}
+
+const handleKey = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+        closeModal()
+    }
+}
+
+watch(() => props.isOpen, async (val) => {
+    if (val) {
+        previouslyFocused.value = document.activeElement as HTMLElement
+        await nextTick()
+        modalPanel.value?.focus()
+        document.body.style.overflow = 'hidden'
+        window.addEventListener('keydown', handleKey)
+    } else {
+        document.body.style.overflow = ''
+        window.removeEventListener('keydown', handleKey)
+    }
+})
 
 const handleCheckout = () => {
     if (items.value.length > 0) {
@@ -25,11 +53,13 @@ const handleCheckout = () => {
         <div class="absolute inset-0 bg-black opacity-50" @click="emit('close')"></div>
 
         <!-- Modal -->
-        <div class="relative bg-white rounded-lg shadow-lg w-full max-w-md max-h-screen flex flex-col">
+        <div ref="modalPanel" tabindex="-1" role="dialog" aria-modal="true"
+            class="relative bg-white rounded-none sm:rounded-lg shadow-lg w-full h-full sm:max-w-md sm:max-h-screen flex flex-col">
             <!-- Header -->
             <div class="flex justify-between items-center p-4 border-b">
                 <h2 class="text-xl font-semibold">Shopping Cart</h2>
-                <button @click="emit('close')" class="text-gray-500 hover:text-gray-700">
+                <button @click="closeModal" aria-label="Close cart"
+                    class="text-gray-500 hover:text-gray-700 p-1 focus:outline-none focus:ring-2 focus:ring-amber-400 rounded">
                     <i class="fa-solid fa-times text-2xl"></i>
                 </button>
             </div>
@@ -44,7 +74,8 @@ const handleCheckout = () => {
                 <div v-else class="space-y-4">
                     <div v-for="item in items" :key="item.id" class="flex gap-3 border-b pb-4">
                         <!-- Image -->
-                        <img :src="item.image" :alt="item.name" class="w-16 h-16 object-cover rounded" />
+                        <img :src="item.image" :alt="item.name" class="w-16 h-16 object-cover rounded" loading="lazy"
+                            decoding="async" />
 
                         <!-- Details -->
                         <div class="flex-1">
