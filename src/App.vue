@@ -19,7 +19,7 @@ const isCartOpen = ref(false)
 onBeforeMount(async () => {
   try {
     loading.value = true;
-    const response = await axios.get<Product[]>('https://api.escuelajs.co/api/v1/categories')
+    const response = await axios.get<Product[]>('https://api.escuelajs.co/api/v1/categories?offset=0&limit=7')
     data.value = response.data
   } catch (err) {
     console.error('Error Fetching Products', err)

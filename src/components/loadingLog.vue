@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
 
 defineProps<{
   loading: boolean
@@ -7,10 +6,7 @@ defineProps<{
 </script>
 
 <template>
-  <div
-    v-if="loading"
-    class="w-full h-full absolute top-0 left-0 z-40 bg-slate-50 flex justify-center items-center"
-  >
+  <div v-if="loading" class="w-full h-full absolute top-0 left-0 z-40 bg-slate-50 flex justify-center items-center">
     <div class="spinner">
       <span></span>
       <span></span>
